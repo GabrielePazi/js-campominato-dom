@@ -1,15 +1,20 @@
 const btnPlay = document.querySelector(".btn-play");
 const container = document.querySelector(".grid-container");
-let clickCounter = 0;
+let clickCounter = 1;
+let playCondition = true;
 
 btnPlay.addEventListener("click", onBtnClick);
 
 function onBtnClick() {
   container.classList.add("my-3");
   
-  let grid = createGrid();
+  if (playCondition) {
+    let grid = createGrid();
 
-  printGrid(grid)
+    printGrid(grid)
+  } else {
+    return
+  }
 }
 
 function createGrid() {
@@ -24,7 +29,7 @@ function createGrid() {
     grid.push(singleCell);
 
     if (isBomb(i, bombsArray)) {
-      console.log("in posizione ", i, " c'è una bomba")
+      console.log("c'è una bomba in: ", i)
       singleCell.addEventListener("click", clickOnBomb)
     } else {
       singleCell.addEventListener("click", clickOnCell)
@@ -86,9 +91,27 @@ function randomNumber(maxRand) {
 }
 
 function clickOnBomb() {
-  this.classList.toggle("bg-danger");
+  if (playCondition) {
+    this.classList.toggle("bg-danger");
+
+    document.querySelector(".message").innerHTML = "Hai perso dopo " + clickCounter + " tentativi"
+    playCondition = false;
+  } else {
+    return
+  }
 }
 
 function clickOnCell() {
-  this.classList.toggle("bg-primary");
+  if (playCondition) {
+    this.classList.toggle("bg-primary");
+
+    if (clickCounter <= 84) {
+      clickCounter++
+    } else {
+      document.querySelector(".message").innerHTML = "Hai Vinto!!!"
+      playCondition = false;
+    }
+  } else {
+    return
+  }
 }
