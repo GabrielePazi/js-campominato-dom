@@ -1,4 +1,5 @@
 const btnPlay = document.querySelector(".btn-play");
+const btnReset = document.querySelector(".reset-btn")
 const container = document.querySelector(".grid-container");
 let clickCounter = 1;
 let playCondition = true;
@@ -105,13 +106,21 @@ function showAllBombs() {
 //funzione del click sulle bombe
 function clickOnBomb() {
   if (playCondition) {
+    playCondition = false;
+
     this.classList.toggle("bg-danger");
 
-    document.querySelector(".message").innerHTML = "Hai perso dopo " + clickCounter + " tentativi"
-    showAllBombs()
-    playCondition = false;
+    document.querySelector(".message").innerHTML = "Hai perso dopo " + clickCounter + " tentativi";
+    showAllBombs();
+
+    container.classList.add("opacity-25")
+    btnReset.classList.replace("d-none", "d-block");
+
+    btnReset.addEventListener("click", function() {
+      location.reload()
+    })
   } else {
-    return
+    return;
   }
 }
 
