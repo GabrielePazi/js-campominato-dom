@@ -1,5 +1,6 @@
 const btnPlay = document.querySelector(".btn-play");
 const container = document.querySelector(".grid-container");
+let clickCounter = 0;
 
 btnPlay.addEventListener("click", onBtnClick);
 
@@ -11,7 +12,6 @@ function onBtnClick() {
   printGrid(grid)
 }
 
-
 function createGrid() {
   let grid = [];
   const bombsArray = createRandomBombs();
@@ -19,11 +19,12 @@ function createGrid() {
   for (let i = 0; i < 100; i++) {
 
     let singleCell = createCell();
-    singleCell.innerHTML = i + 1;
+    singleCell.innerHTML = i;
 
     grid.push(singleCell);
 
-    if (insertBomb(i, bombsArray)) {
+    if (isBomb(i, bombsArray)) {
+      console.log("in posizione ", i, " c'è una bomba")
       singleCell.addEventListener("click", clickOnBomb)
     } else {
       singleCell.addEventListener("click", clickOnCell)
@@ -34,7 +35,7 @@ function createGrid() {
 }
 
 //cicla su bombsArray e se trova un elemento uguale a grid element ritrona true, falso altrimenti
-function insertBomb(gridElementIndex, bombsArray) {
+function isBomb(gridElementIndex, bombsArray) {
   for (let i = 0; i < bombsArray.length; i++) {
     if (bombsArray[i] === gridElementIndex) {
       return true
